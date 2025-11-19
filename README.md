@@ -5,6 +5,6 @@ Code for the numerical simulations contained in the monograph "Optimal Sensor Se
 ______________________________________________________________________________________________________________________________________________________________________
 How to run the code:
 
-- 0) Optional: generate setup using main.py (thanks to Luca Varotto and Alessandra Zampieri)
+0. Optional: generate setup using main.py (thanks to Luca Varotto and Alessandra Zampieri)
 
-- 1) Run MAIN.m after having set correctly all the paths to generate the numerical results (careful: it may take several hours for some methods to finish).
+1. Run MAIN.m after having set correctly all the paths to generate the numerical results (careful: it may take several hours for some methods to finish).
