@@ -239,12 +239,14 @@ xlim([0 T])
 figure('position',[100 100 1000 600])
 grid on
 hold on
-y_tilde = 60*(y_plot - y_hat);
+y_tilde = abs((y_plot - y_hat)./y_plot);
 for i = 1:n
     plot(tt,y_tilde(i,:),'Color',colors(i,:),'LineWidth',lw)
+    set(gca, 'YScale', 'log');
 end
 xlabel('$t$ [s]', 'Interpreter',intr)
-ylabel('Estimation errors [veh/min]','Interpreter',intr)
+%ylabel('Estimation errors [veh/min]','Interpreter',intr)
+ylabel('Relative estimation errors $[~]$','Interpreter',intr)
 xaxisproperties = get(gca, 'XAxis');
 xaxisproperties.TickLabelInterpreter = intr;
 xaxisproperties.FontSize = ftsz;
