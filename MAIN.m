@@ -11,11 +11,9 @@ U = 10 /60;
 switch M
     case 0
         path = '.\SANCARLOc';
-        % path = '/home/marco/Desktop/OneDrive_2025-10-28/Street_sensor_selection/Code/v05/SANCARLOc'; % Lenovo
         % path = '/home/marcof/MEGA/v05/SANCARLOc'; % remote server
     case 1
         path = '.\SANCARLOcE';
-        % path = '/home/marco/Desktop/OneDrive_2025-10-28/Street_sensor_selection/Code/v05/SANCARLOcE'; % Lenovo
         % path = '/home/marcof/MEGA/v05/SANCARLOcE'; % remote server
 end
 if U > 1/6
@@ -70,12 +68,13 @@ save([path 'eta.mat'],'eta')
 % 7) data_driven_selection(sys,p_star);
 
 Tsim = 3*60*60; % simulation time
+ET = -ones(n,7,7);
 fprintf('START\n')
 for method = 3:7 %1:7
-    compute_data(path,U,sys,Tsim,method);
+    ET(:,:,method) = compute_data(path,U,sys,Tsim,method);
 end
 fprintf('END')
-
+% save('ET.mat','ET')
 
 
 
@@ -88,7 +87,7 @@ fprintf('END')
 
 
 
-function [] = compute_data(path,U,sys,Tsim,method)
+function ET_ = compute_data(path,U,sys,Tsim,method)
 
 %% selection of the optimization method (opt. method is fixed)
 switch method
@@ -118,6 +117,7 @@ obsdet = zeros(N_metrics,p-1);
 error = zeros(N_metrics,p-1,Tsim+1);
 errorNL = zeros(N_metrics,p-1,Tsim+1);
 conf = cell(N_metrics,p-1);
+ET_ = -ones(p,7);
 
 %% Main cycle: sensor placement
 for metric = metrics
@@ -126,6 +126,7 @@ for metric = metrics
         fprintf(['mthd, mtrc, p_str: ' num2str(method) ', ' num2str(metric) ', ' num2str(p_star) '\n'])
 
         % Sensor selection is carried out depending on the method and metric
+        tStart = tic;
         switch method
            case 1
             [Q_star,detectable,observable] = exaustive_selection(sys,@f,metric,p_star);
@@ -142,6 +143,7 @@ for metric = metrics
            case 7
             [Q_star,detectable,observable] = data_driven_selection(sys,p_star);
         end
+        ET_(p_star,6) = toc(tStart);
    
         conf{metric,p_star} = Q_star;
      
@@ -183,11 +185,11 @@ end
 %% Saving data
 rate
 
-save([path 'SANCARLOc_errorNL_' num2str(method) '.mat'],'errorNL')
-save([path 'SANCARLOc_error___' num2str(method) '.mat'],'error')
-save([path 'SANCARLOc_obsdet__' num2str(method) '.mat'],'obsdet')
-save([path 'SANCARLOc_rate____' num2str(method) '.mat'],'rate')
-save([path 'SANCARLOc_conf____' num2str(method) '.mat'],'conf')
+% save([path 'SANCARLOc_errorNL_' num2str(method) '.mat'],'errorNL')
+% save([path 'SANCARLOc_error___' num2str(method) '.mat'],'error')
+% save([path 'SANCARLOc_obsdet__' num2str(method) '.mat'],'obsdet')
+% save([path 'SANCARLOc_rate____' num2str(method) '.mat'],'rate')
+% save([path 'SANCARLOc_conf____' num2str(method) '.mat'],'conf')
 
 end
 

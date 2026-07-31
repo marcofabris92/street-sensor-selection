@@ -1,3 +1,5 @@
+# IMPORTANT: to make the code run, install Python 3.12 and then install
+# each of the following libraries with the indicated version
 import warnings
 import osmnx as ox # v 1.9.4
 import networkx as nx # v 3.3
@@ -6,7 +8,7 @@ import matplotlib.pyplot as plt # v 3.9.2
 import geopandas as gpd # v 0.14.4
 from shapely.geometry import MultiLineString # v 2.0.6
 import math
-import scipy.io as sio
+import scipy.io as sio # v 1.12
 #import algorithms
 
 # ******************************************************
@@ -232,10 +234,10 @@ def create_LTI_system(Adj, categories, borders):
 
 if __name__ == "__main__":
     # bounding box latitude-longitude coordinates to select the area of interest
-    bbox = [45.41080,45.40653,11.90678,11.89139] # stanga
-    # bbox = [45.43306, 45.42866, 11.89090, 11.88072]  # arcella
-    # bbox = [45.43306, 45.42815, 11.89507, 11.88072]  # arcella (more long distance)
-    # bbox = [45.40000,45.38418,11.95493,11.92853] # padova industrial zone
+    # bbox = [45.41080,45.40653,11.90678,11.89139] # Stanga
+    # bbox = [45.43306, 45.42866, 11.89090, 11.88072]  # San Carlo
+    bbox = [45.439173, 45.417631, 11.902731, 11.872032]  # Arcella + San Carlo (extended)
+    # bbox = [45.40000,45.38418,11.95493,11.92853] # Padova industrial zone
     G_init = graph_extraction(bbox)
     graph_visualization(G_init, title='Original Graph (simplified version)')
     G_processed = graph_processing(G_init)
@@ -445,8 +447,8 @@ if __name__ == "__main__":
     A,B,C = create_LTI_system(Adj, categories, borders)
 
     #np.savetxt('.\A.mat', A)
-    #np.savetxt('.\B.mat', B)
-    #np.savetxt('.\C.mat', C)
+    #np.savetxt('.\Bnew.mat', B)
+    #np.savetxt('.\Cnew.mat', C)
     sio.savemat('.\A.mat', {'A': A})
     sio.savemat('.\B.mat', {'B': B})
     sio.savemat('.\C.mat', {'C': C})
