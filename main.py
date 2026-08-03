@@ -446,9 +446,62 @@ if __name__ == "__main__":
     categories = get_categories(edges_final)
     A,B,C = create_LTI_system(Adj, categories, borders)
 
+    # ==========================================================
+    # Road labeling
+    # Green  -> B(i)=0
+    # Red  -> B(i)>0
+    # ==========================================================
+
+    fig, ax = plt.subplots(figsize=(16, 16))
+
+    # Draw all streets
+    edges_grouped.plot(
+        ax=ax,
+        color='lightgray',
+        linewidth=2
+    )
+
+    #print(len(edges_grouped))
+    idxx: int = 0
+    for idx, row in edges_grouped.iterrows():
+
+        # geometrical center of a street
+        c = row.geometry.centroid
+
+        # color choice
+        if B[idx, 0] > 0:
+            txt_color = 'red'
+        else:
+            txt_color = 'green'
+
+        idxx = idx+1
+
+        ax.text(
+            c.x,
+            c.y,
+            str(idxx),
+            fontsize=8,
+            color=txt_color,
+            weight='bold',
+            ha='center',
+            va='center',
+            bbox=dict(
+                facecolor='white',
+                edgecolor='black',
+                alpha=0.75,
+                boxstyle='round,pad=0.15'
+            ),
+            zorder=5
+        )
+
+    ax.set_title("Street indexing (red = entry, green = internal)", fontsize=16)
+    ax.set_axis_off()
+    plt.tight_layout()
+    plt.show()
+
     #np.savetxt('.\A.mat', A)
     #np.savetxt('.\Bnew.mat', B)
     #np.savetxt('.\Cnew.mat', C)
-    sio.savemat('.\A.mat', {'A': A})
-    sio.savemat('.\B.mat', {'B': B})
-    sio.savemat('.\C.mat', {'C': C})
+    #sio.savemat('.\A_arcella.mat', {'A': A})
+    #sio.savemat('.\B_arcella.mat', {'B': B})
+    #sio.savemat('.\C_arcella.mat', {'C': C})
