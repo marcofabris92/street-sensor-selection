@@ -1,3 +1,6 @@
+%% ARX estimation
+% CAREFUL: comment/ uncomment the lines you really need for loading/ saving
+
 clearvars
 close all
 clc
@@ -5,9 +8,11 @@ RHO_MAX = 2;   % model order (or better, maximum ARX lag)
 
 %% --- Load data ---
 path = '.\SANCARLOcE\';
-%path = '/home/marco/Desktop/OneDrive_2025-10-28/Street_sensor_selection/Code/v05/SANCARLOcE/';
+%path = '.\ARCELLA\';
 A = table2array(struct2table(load([path '_A_sancarlo_c.mat'])));
 B = table2array(struct2table(load([path '_B_sancarlo_c.mat'])));
+%A = table2array(struct2table(load([path '_A_arcella.mat'])));
+%B = table2array(struct2table(load([path '_B_arcella.mat'])));
 load([path 'flux_data.mat']) % loads vars u and y
 
 y00 = y(1,:)';
@@ -258,3 +263,5 @@ xlim([0 T])
 %% --- Save results ---
 save([path '_A_est_sancarlo_c.mat'],'A_est')
 save([path '_B_est_sancarlo_c.mat'],'B_est')
+%save([path '_A_est_arcella.mat'],'A_est')
+%save([path '_B_est_arcella.mat'],'B_est')

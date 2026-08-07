@@ -17,8 +17,10 @@ Q = (1:p)';
 q = zeros(p,1);
 k = 1;
 while k <= p-p_star && partial == 0
+    %k
     min_fQi = +Inf;
     for j = 1:length(Q)
+        %j
         i = Q(j);
         sys.C = C(setdiff(Q,i),:);
         [~,isObs,isDet] = obs(sys.A,sys.C,n,0,1,0,1);

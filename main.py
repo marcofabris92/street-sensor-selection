@@ -500,8 +500,11 @@ if __name__ == "__main__":
     plt.show()
 
     #np.savetxt('.\A.mat', A)
-    #np.savetxt('.\Bnew.mat', B)
-    #np.savetxt('.\Cnew.mat', C)
-    #sio.savemat('.\A_arcella.mat', {'A': A})
-    #sio.savemat('.\B_arcella.mat', {'B': B})
-    #sio.savemat('.\C_arcella.mat', {'C': C})
+    #np.savetxt('.\B.mat', B)
+    #np.savetxt('.\C.mat', C)
+    sio.savemat('.\A_arcella.mat', {'A': A})
+    sio.savemat('.\B_arcella.mat', {'B': B})
+    sio.savemat('.\C_arcella.mat', {'C': C})
+
+    road_lengths = edges_final['length'].to_numpy()
+    sio.savemat('.\Road_lengths_arcella.mat',{'road_lengths': road_lengths})

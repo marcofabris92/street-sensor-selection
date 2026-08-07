@@ -1,15 +1,19 @@
 %% data generation - METANET MODEL
+% CAREFUL: comment/ uncomment the lines you really need for loading/ saving
 
 clearvars
 close all
 clc
 
-path = '.\SANCARLOcE\';
+%path = '.\SANCARLOcE\';
+path = '.\ARCELLA\';
 % path = '/home/marcof/MEGA/v03/SANCARLOcE/'; % remote server
-% path = '/home/marco/Desktop/OneDrive_2025-10-28/Street_sensor_selection/Code/v04/SANCARLOcE/';
+% path = '/home/marcof/MEGA/v03/ARCELLA/'; % remote server
 
-A = table2array(struct2table(load([path '_A_sancarlo_c.mat'])));
-B = table2array(struct2table(load([path '_B_sancarlo_c.mat'])));
+%A = table2array(struct2table(load([path '_A_sancarlo_c.mat'])));
+%B = table2array(struct2table(load([path '_B_sancarlo_c.mat'])));
+A = table2array(struct2table(load([path '_A_arcella.mat'])));
+B = table2array(struct2table(load([path '_B_arcella.mat'])));
 
 n = size(A,1);
 p.n = n;
@@ -26,6 +30,7 @@ p.a = 2; % between 1 and 3
 p.eta_tilde = 0.5; % this is \nu in the monograph
 p.kappa_tilde = 150;
 
+% use these street lengths for the small scenario
 street_lengths = [
     158;
     114;
@@ -53,6 +58,9 @@ street_lengths = [
     40;
     68];
 
+% uncomment for Arcella + San Carlo map (large scale scenario)
+% street_lengths =  cell2mat(table2array(struct2table(load([path 'Road_lengths_arcella.mat']))))';
+
 p.DL = inv(diag(street_lengths));
 p.PU = A-eye(n); 
 p.PD = A'-eye(n); 
@@ -60,7 +68,7 @@ nx = 0;
 %x0 = sqrt(0.1/60)*ones(2*n,1);
 x0 = zeros(2*n,1);
 
-HOURS = 1;
+HOURS = 16;
 Tsim = round(HOURS*3600/p.Ts);
 tspan = 0:p.Ts:Tsim;
 
@@ -73,7 +81,7 @@ u(1:nx) = zeros(nx,1);
 
 % Final time:
 % rho in veh/m | v in km/h | flow in veh/min
-[x(end,1:25)' 3.6*x(end,26:end)' 60*y(end,1:25)']
+[x(end,1:n)' 3.6*x(end,n+1:end)' 60*y(end,1:n)']
 
 
 figure

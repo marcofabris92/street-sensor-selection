@@ -1,5 +1,5 @@
 function [x,y,x_hat,ys,y_hat,e_x,norm_e_x,os_ref] = ...
-    red_ord_est_sim_NL(sys,est,S,u,x_hat_0)
+    red_ord_est_sim_NL(M,path,sys,est,S,u,x_hat_0)
 
 % Useful dimensions
 Tsim = size(u,2)-1;
@@ -59,6 +59,10 @@ street_lengths = [
     74;
     40;
     68];
+
+if M > 1
+    street_lengths =  cell2mat(table2array(struct2table(load([path 'Road_lengths_arcella.mat']))))';
+end
 
 pp.DL = inv(diag(street_lengths));
 
