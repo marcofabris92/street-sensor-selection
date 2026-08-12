@@ -84,7 +84,7 @@ Tsim = 3*60*60; % simulation time
 ET = -ones(n,7,7);
 fprintf('START\n')
 %parpool('local',4)
-parfor method = 6:7 % consider using parfor if M=2
+parfor method = 1:7 % consider using parfor if M=2
     ET(:,:,method) = ...
         compute_data(M,sim_,path,U,sys,Tsim,method);
 end
