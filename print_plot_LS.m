@@ -112,13 +112,13 @@ end
 h = plot(ttt,scale*squeeze(error4(1,p_star,1+ttt)),...
         'Color',getColor(4),'LineWidth',1.5);
 hh = [hh h];
-% for metric = [1 2 5 6 7] % magenta
-%     plot(ttt,scale*squeeze(error4(metric,p_star,1+ttt)),...
-%         'Color',getColor(4),'LineWidth',1.5)
-%     ttt_ = downsample(ttt,50+(metric-1)*K+60);
-%     plot(ttt_,scale*squeeze(error4(metric,p_star,1+ttt_)),...
-%         getMarker(metric),'Color',getColor(4),'LineWidth',2)
-% end
+for metric = [1 2 5 6 7] % magenta
+    plot(ttt,scale*squeeze(error4(metric,p_star,1+ttt)),...
+        'Color',getColor(4),'LineWidth',1.5)
+    ttt_ = downsample(ttt,50+(metric-1)*K+60);
+    plot(ttt_,scale*squeeze(error4(metric,p_star,1+ttt_)),...
+        getMarker(metric),'Color',getColor(4),'LineWidth',2)
+end
 % GENETIC approach
 h = plot(ttt,scale*squeeze(error5(1,p_star,1+ttt)),...
         'Color',getColor(5),'LineWidth',1.5);

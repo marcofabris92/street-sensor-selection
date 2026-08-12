@@ -5,15 +5,15 @@ clearvars
 close all
 clc
 
-%path = '.\SANCARLOcE\';
-path = '.\ARCELLA\';
+path = '.\SANCARLOcE\';
+%path = '.\ARCELLA\';
 % path = '/home/marcof/MEGA/v03/SANCARLOcE/'; % remote server
 % path = '/home/marcof/MEGA/v03/ARCELLA/'; % remote server
 
-%A = table2array(struct2table(load([path '_A_sancarlo_c.mat'])));
-%B = table2array(struct2table(load([path '_B_sancarlo_c.mat'])));
-A = table2array(struct2table(load([path '_A_arcella.mat'])));
-B = table2array(struct2table(load([path '_B_arcella.mat'])));
+A = table2array(struct2table(load([path '_A_sancarlo_c.mat'])));
+B = table2array(struct2table(load([path '_B_sancarlo_c.mat'])));
+%A = table2array(struct2table(load([path '_A_arcella.mat'])));
+%B = table2array(struct2table(load([path '_B_arcella.mat'])));
 
 n = size(A,1);
 p.n = n;
@@ -73,7 +73,17 @@ Tsim = round(HOURS*3600/p.Ts);
 tspan = 0:p.Ts:Tsim;
 
 u = (10 /60)*ones(length(tspan),1);
-%u = u+(10 /60)*0.1*randn(size(u));
+u = u+(10 /60)*0.1*randn(size(u));
+% w0 = 2*pi/(60*60);
+% U = 10/60;
+% u = U*(sin(w0*tspan')+1);
+% sig = U/4;
+% for t = 1:length(tspan)
+%     val = u(t) + sig*randn;
+%     if val >= 0
+%         u(t) = val;
+%     end
+% end
 u(1:nx) = zeros(nx,1);
 
 [x,y] = METANET(p,x0,u);
