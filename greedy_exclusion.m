@@ -17,21 +17,18 @@ Q = (1:p)';
 q = zeros(p,1);
 k = 1;
 while k <= p-p_star && partial == 0
-    %k
-    min_fQi = +Inf;
+    opt_fQi = -Inf; % +Inf;
     for j = 1:length(Q)
-        %j
         i = Q(j);
         sys.C = C(setdiff(Q,i),:);
         [~,isObs,isDet] = obs(sys.A,sys.C,n,0,1,0,1);
         if isDet
             fQi = f(metric,sys);
-            if fQi < min_fQi
-                min_fQi = fQi;
+            if fQi > opt_fQi % < 
+                opt_fQi = fQi; 
                 q(p-k+1) = i;
             end
-            if fQi == min_fQi && isObs
-                min_fQi = fQi;
+            if fQi == opt_fQi && isObs
                 q(p-k+1) = i;
             end
         end
