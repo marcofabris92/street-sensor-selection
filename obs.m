@@ -104,20 +104,12 @@ elseif getObs && ~isObs
 end
 
 if getDet && ~isDet
-    %[V,~] = qr([O(1:p*n,:); Or]',0);
-    %Vinv = V'; % thanks to the orthonormality of V
-
     N = null([O(1:p*n,:); Or]);
-    North = null(N');
-    r = size(North,2);
-    Vinv = [North N]';
+    N_orth = null(N');
+    r = size(N_orth,2);
+    Vinv = [N_orth N]';
     V = Vinv^-1;
-
     A = Vinv*A*V;
-    % C = C*V;
-    % while r >= 1 && my_rank(obsv(A(1:r,1:r),C(:,1:r))) < r
-    %     r = r-1;
-    % end
     lambda = abs(eig(A(r+1:end,r+1:end)));
     isDet = 1;
     k = 0;
