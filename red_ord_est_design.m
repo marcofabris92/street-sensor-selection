@@ -10,8 +10,8 @@ Cs = S*sys.C;
 [Csbar,~] = qr(Cs');   
 Csbar = Csbar(:,p_star+1:end)';
 
-est.Vinv = [Csbar; Cs];
-est.V = pinv(est.Vinv);
+est.V = [Csbar; Cs];
+est.Vinv = pinv(est.V);
 
 % Handle the case where all sensors have been selected
 if p_bar == 0
@@ -25,8 +25,8 @@ if p_bar == 0
     return
 end
 
-F = est.Vinv*sys.A*est.V;
-G = est.Vinv*sys.B;
+F = est.V*sys.A*est.Vinv;
+G = est.V*sys.B;
 % Also: H = [zeros(p_star,p_bar) eye(p_star)];
 
 F11 = F(1:p_bar,1:p_bar);
