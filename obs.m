@@ -104,9 +104,14 @@ elseif getObs && ~isObs
 end
 
 if getDet && ~isDet
-    [VT,~] = qr([O(1:p*n,:); Or]',0);
-    V = VT';
-    A = VT*A*V;
+    %[V,~] = qr([O(1:p*n,:); Or]',0);
+    %Vinv = V'; % thanks to the orthonormality of V
+
+    N = null([O(1:p*n,:); Or]);
+    Vinv = [null(N') N]';
+    V = Vinv^-1;
+
+    A = Vinv*A*V;
     C = C*V;
     while r >= 1 && my_rank(obsv(A(1:r,1:r),C(:,1:r))) < r
         r = r-1;
